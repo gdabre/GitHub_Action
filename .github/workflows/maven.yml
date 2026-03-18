@@ -6,7 +6,7 @@ on:
 
 jobs:
   compile:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
     - uses: actions/checkout@v4
@@ -20,7 +20,7 @@ jobs:
       run: mvn compile
       
   security-check:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: compile
 
     steps:
@@ -35,8 +35,5 @@ jobs:
 
     - name: Trivy FS Scan
       run: trivy fs --format table -o fs-report.json .
-
-    - name: Gitleaks Installation
-      run: sudo apt install gitleaks -y
     - name: Gitleaks Code Scan
       run: gitleaks detect source . -r gitleaks-report.json -f json
